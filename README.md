@@ -95,6 +95,15 @@ go test ./...
 cargo test
 ```
 
+### post-edit-diffsize.sh (PostToolUse → Edit|Write)
+
+未コミットの変更量を監視し、閾値を超えたらコミットを促す。
+
+- デフォルト閾値: **200行**（insertion + deletion の合計）
+- 環境変数 `CLAUDE_HARNESS_DIFF_THRESHOLD` で変更可能
+- git リポジトリでなければスキップ
+- 閾値未満なら何も出力しない
+
 ### post-compact.sh (PostToolUse → compact)
 
 コンパクション発生時に:
