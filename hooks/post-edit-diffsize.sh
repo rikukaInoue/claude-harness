@@ -2,7 +2,7 @@
 # post-edit-diffsize.sh — 未コミットの変更が大きくなりすぎたら警告する PostToolUse hook
 # Edit/Write 後に発火し、diff の行数で判定する
 
-THRESHOLD="${CLAUDE_HARNESS_DIFF_THRESHOLD:-200}"
+THRESHOLD="${CLAUDE_HARNESS_DIFF_THRESHOLD:-100}"
 
 if [ ! -d "$CLAUDE_PROJECT_DIR/.git" ]; then
   exit 0
