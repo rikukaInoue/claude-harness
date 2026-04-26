@@ -2,6 +2,9 @@
 # protect-bash.sh — 危険なBashコマンドをブロックする PreToolUse hook
 # exit 2 = bypassPermissions モードでも強制ブロック
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/harness-log.sh"
+
 INPUT=$(cat)
 COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command')
 
@@ -27,6 +30,7 @@ BLOCKED_PATTERNS=(
 
 for pattern in "${BLOCKED_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qi "$pattern"; then
+    harness_log "protect-bash" "blocked" "$pattern"
     echo '{"permissionDecision":"deny"}'
     echo "BLOCKED: dangerous command matching '$pattern'" >&2
     exit 2

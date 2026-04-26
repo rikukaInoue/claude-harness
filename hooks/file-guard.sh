@@ -2,6 +2,9 @@
 # file-guard.sh — 機密ファイルへの書き込みをブロックする PreToolUse hook
 # Edit / Write ツールに対して適用する
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/harness-log.sh"
+
 INPUT=$(cat)
 FILE=$(echo "$INPUT" | jq -r '.tool_input.file_path // .tool_input.path // empty')
 
@@ -27,6 +30,7 @@ SENSITIVE_PATTERNS=(
 
 for pattern in "${SENSITIVE_PATTERNS[@]}"; do
   if echo "$FILE" | grep -qiE "$pattern"; then
+    harness_log "file-guard" "blocked" "$pattern ($FILE)"
     echo '{"permissionDecision":"deny"}'
     echo "BLOCKED: write to sensitive file matching '$pattern' ($FILE)" >&2
     exit 2

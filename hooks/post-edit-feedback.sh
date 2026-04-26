@@ -5,6 +5,9 @@
 # プロジェクトに .claude/test-command.sh があればそれを実行。
 # なければスキップ（何も出力しない）。
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/harness-log.sh"
+
 TEST_SCRIPT="$CLAUDE_PROJECT_DIR/.claude/test-command.sh"
 
 if [ ! -f "$TEST_SCRIPT" ]; then
@@ -16,9 +19,11 @@ OUTPUT=$(bash "$TEST_SCRIPT" 2>&1)
 EXIT_CODE=$?
 
 if [ $EXIT_CODE -eq 0 ]; then
+  harness_log "test-feedback" "passed" ""
   echo "PASSED"
   echo "$OUTPUT" | tail -5
 else
+  harness_log "test-feedback" "failed" "exit_code=$EXIT_CODE"
   echo "FAILED (exit code: $EXIT_CODE)"
   echo "$OUTPUT" | tail -30
   echo ""

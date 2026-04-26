@@ -2,6 +2,11 @@
 # post-compact.sh — コンパクション後にコンテキストを再注入する PostToolUse hook
 # stdout がそのまま system message として Claude に渡される
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+source "$SCRIPT_DIR/harness-log.sh"
+
+harness_log "compact" "compacted" ""
+
 # プロジェクトレベルの context-essentials.txt があればそれを使う
 if [ -f "$CLAUDE_PROJECT_DIR/.claude/context-essentials.txt" ]; then
   echo "=== Post-Compaction Context Reload ==="
