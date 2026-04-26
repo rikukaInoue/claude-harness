@@ -48,8 +48,19 @@ else
   echo "[created] .claude/context-essentials.txt"
 fi
 
+# --- test-command.sh ---
+TEST_COMMAND="$PROJECT_DIR/.claude/test-command.sh"
+if [ -f "$TEST_COMMAND" ]; then
+  echo "[skip] .claude/test-command.sh already exists"
+else
+  cp "$HARNESS_DIR/templates/test-command.sh" "$TEST_COMMAND"
+  chmod +x "$TEST_COMMAND"
+  echo "[created] .claude/test-command.sh"
+fi
+
 echo ""
 echo "Done! Next steps:"
 echo "  1. Edit CLAUDE.md with your project-specific rules"
-echo "  2. Edit .claude/context-essentials.txt with your current task info"
-echo "  3. Review .claude/settings.json and adjust permissions as needed"
+echo "  2. Edit .claude/test-command.sh with your project's test command"
+echo "  3. Edit .claude/context-essentials.txt with your current task info"
+echo "  4. Review .claude/settings.json and adjust permissions as needed"

@@ -9,11 +9,13 @@ claude-harness/
 ├── hooks/
 │   ├── protect-bash.sh       # 危険コマンド防止 (PreToolUse)
 │   ├── file-guard.sh         # 機密ファイル保護 (PreToolUse)
-│   └── post-compact.sh       # コンパクション後コンテキスト再注入 (PostToolUse)
+│   ├── post-compact.sh       # コンパクション後コンテキスト再注入 (PostToolUse)
+│   └── post-edit-feedback.sh # ファイル編集後の自動テスト (PostToolUse)
 ├── templates/
 │   ├── settings.json         # プロジェクト用 permissions + hooks テンプレート
 │   ├── CLAUDE.md             # ベースルール テンプレート
-│   └── context-essentials.txt # compact 後再注入用テンプレート
+│   ├── context-essentials.txt # compact 後再注入用テンプレート
+│   └── test-command.sh       # テストコマンド テンプレート
 └── setup.sh                  # プロジェクトへの展開スクリプト
 ```
 
@@ -69,6 +71,29 @@ git clone git@github.com:rikukaInoue/claude-harness.git ~/gh/claude-harness
 - `id_rsa`, `id_ed25519`
 - `credentials`, `secrets/`, `.secret`
 - `token.json`, `service-account`
+
+### post-edit-feedback.sh (PostToolUse → Edit|Write)
+
+ファイル編集後に自動でテストを実行し、結果を Claude にフィードバックする。
+
+1. プロジェクトの `.claude/test-command.sh` があればそれを実行
+2. なければスキップ（何も起きない）
+3. テスト成功時は `PASSED` + 末尾5行を表示
+4. テスト失敗時は `FAILED` + 末尾30行 + 修正を促すメッセージを表示
+
+プロジェクトごとに `.claude/test-command.sh` を書くだけで、言語やフレームワークを問わず動作する。
+
+```bash
+# .claude/test-command.sh の例
+# Node.js
+npm test
+
+# Go
+go test ./...
+
+# Rust
+cargo test
+```
 
 ### post-compact.sh (PostToolUse → compact)
 

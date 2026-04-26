@@ -52,6 +52,15 @@
     ],
     "PostToolUse": [
       {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__HARNESS_DIR__/hooks/post-edit-feedback.sh"
+          }
+        ]
+      },
+      {
         "matcher": "compact",
         "hooks": [
           {
