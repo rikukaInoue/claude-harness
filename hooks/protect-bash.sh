@@ -31,7 +31,8 @@ BLOCKED_PATTERNS=(
 for pattern in "${BLOCKED_PATTERNS[@]}"; do
   if echo "$COMMAND" | grep -qi "$pattern"; then
     harness_log "protect-bash" "blocked" "$pattern"
-    echo '{"permissionDecision":"deny"}'
+    # exit 2 がブロック機構(stderr がモデルに返る)。stdout の JSON は exit 2 では
+    # 読まれないため出さない(旧形式 {"permissionDecision":...} を置いていたが無意味だった)
     echo "BLOCKED: dangerous command matching '$pattern'" >&2
     exit 2
   fi
