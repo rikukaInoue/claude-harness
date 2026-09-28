@@ -7,18 +7,46 @@
       "Grep",
       "Write(src/**)",
       "Edit(src/**)",
+
       "Bash(git status)",
       "Bash(git diff *)",
       "Bash(git log *)",
       "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git checkout -b *)",
+      "Bash(git switch *)",
+      "Bash(git push origin *)",
+      "Bash(git fetch *)",
+      "Bash(git pull --ff-only *)",
+
+      "Bash(gh pr *)",
+      "Bash(gh issue *)",
+      "Bash(gh run *)",
+      "Bash(gh api *)",
+
+      "Bash(docker compose *)",
+      "Bash(docker logs *)",
+      "Bash(docker exec *)",
+      "Bash(docker ps *)",
+
+      "Bash(mise run *)",
+      "Bash(go test *)",
+      "Bash(go build *)",
+      "Bash(go vet *)",
       "Bash(npm run test *)",
       "Bash(npm run lint *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm lint *)",
+      "Bash(rtk *)",
+
+      "Bash(curl -s http://localhost*)",
+      "Bash(curl -s http://127.0.0.1*)"
     ],
     "deny": [
       "Bash(rm -rf *)",
       "Bash(sudo *)",
-      "Bash(curl *)",
       "Bash(wget *)",
       "Bash(git push --force *)",
       "Bash(git push -f *)",

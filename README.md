@@ -119,10 +119,21 @@ cargo test
 |---------|------|
 | ファイル読み取り・検索 | allow |
 | `src/**` への書き込み | allow |
-| git 読み取り系 | allow |
-| テスト・lint 実行 | allow |
-| `rm -rf`, `sudo`, `curl`, `wget` | deny |
+| git 読み取り系 + add/commit/push（force 以外）/ブランチ作成 | allow |
+| `gh pr` / `gh issue` / `gh run` / `gh api` | allow |
+| `docker compose` / `docker logs` / `docker exec` / `docker ps` | allow |
+| `mise run`, `go test/build/vet`, npm/pnpm の test・lint, `rtk` | allow |
+| `curl` は **localhost / 127.0.0.1 宛のみ** allow（外向きは通常の確認） | allow |
+| `rm -rf`, `sudo`, `wget`, force push, `git reset --hard` | deny |
 | `git push --force`, `git reset --hard` | deny |
 | `.env`, `.pem`, `.key` への書き込み | deny |
 
 プロジェクトに応じて `allow` のパスやコマンドを調整すること。
+
+allow の設計方針: **自律稼働で1日に何十回も出る操作**（PR 運用・compose 実測・
+テスト実行）を通し、**課金・削除・外向きの操作**は通常の確認に残す。
+`curl` を一律 deny にしない理由は、ローカル実測（healthz 叩き等）が
+ワークフローの中心にあるため。外向き `curl` は allow に入れず確認に倒す。
+
+なお `git push --force` などは deny と protect-bash.sh の**二重**で守っている。
+deny は settings を消せば外れるが、hook の exit 2 は bypassPermissions でも効く。
